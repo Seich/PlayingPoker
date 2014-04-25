@@ -20,27 +20,25 @@ describe Deck do
         end
     end
 
-    describe "#get_card" do
+    describe "#deal_card" do
         before :each do
             @deck = Deck.new :royal
         end
 
         it "returns a card from the deck"  do
-            @deck.get_card.class.name.should eq("Struct::Card")
+            @deck.deal_card.should be_an_instance_of Struct::Card
         end
 
         it "should remove the card form the deck" do
             count = @deck.count
-            @deck.get_card
+            @deck.deal_card
             @deck.count.should eq(count - 1)
         end
 
         it "should return false if there are no cards left" do
-            20.times  do
-                @deck.get_card.class
-            end
-            
-            @deck.get_card.class.name.should eq("FalseClass")
+            20.times { @deck.deal_card }
+
+            @deck.deal_card.should be_false
         end
     end
 end
