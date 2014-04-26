@@ -2,21 +2,28 @@ require_relative '../deck'
 
 describe Deck do
     describe "#new" do
-        it "has 52 cards when it's type is omaha or hold'em" do
-            oDeck = Deck.new :omaha
-            oDeck.count.should eq(52)
 
-            hDeck = Deck.new :holdem
-            hDeck.count.should eq(52)
+        context "Given a valid type" do
+            it "has 52 cards when omaha" do
+                oDeck = Deck.new :omaha
+                expect(oDeck.count).to eq(52)
+            end
+
+            it "has 52 cards when holdem" do
+                hDeck = Deck.new :holdem
+                expect(hDeck.count).to eq(52)
+            end
+
+            it "has 20 cards when it's type of royal" do
+                rDeck = Deck.new :royal
+                expect(rDeck.count).to eq(20)
+            end
         end
 
-        it "has 20 cards when it's type of royal" do
-            rDeck = Deck.new :royal
-            rDeck.count.should eq(20)
-        end
-
-        it "should raise an exception if type not of three valid ones." do
-            expect { deck = Deck.new :test }.to raise_error
+        context "Not given a valid type" do
+            it "should raise an error" do
+                expect { deck = Deck.new :test }.to raise_error
+            end
         end
     end
 
@@ -25,20 +32,30 @@ describe Deck do
             @deck = Deck.new :royal
         end
 
-        it "returns a card from the deck"  do
-            @deck.deal_card.should be_an_instance_of Struct::Card
-        end
+        context "When a card is dealt" do
+            it "returns a card from the deck"  do
+                expect(@deck.deal_card).to be_an_instance_of Struct::Card
+            end
 
-        it "should remove the card form the deck" do
-            count = @deck.count
-            @deck.deal_card
-            @deck.count.should eq(count - 1)
-        end
+            it "should remove the card" do
+                count = @deck.count
+                @deck.deal_card
+                expect(@deck.count).to eq(count - 1)
+            end
 
-        it "should return false if there are no cards left" do
-            20.times { @deck.deal_card }
+            it "should return false if there are no cards left" do
+                20.times { @deck.deal_card }
 
-            @deck.deal_card.should be_false
+                expect(@deck.deal_card).to be_false
+            end
         end
     end
+
+    describe "#variation" do
+        it "should return the deck's variation" do
+            deck = Deck.new :royal
+            expect(deck.to_s).to eq("royal")
+        end
+    end
+
 end

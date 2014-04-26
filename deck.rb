@@ -23,6 +23,10 @@ class Deck
         @deck.count
     end
 
+    def to_s
+        @type.to_s
+    end
+
     private
 
     def fill_deck
