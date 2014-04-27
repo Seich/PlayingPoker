@@ -1,7 +1,8 @@
 class Deck
     def initialize(variation)
-        unless [:omaha, :holdem, :royal].include? variation
-          fail 'Deck variation doesn\'t exist.'
+        @variations = [:omaha, :holdem, :royal]
+        unless @variations.include? variation
+          fail "Deck variation doesn't exist. Valid types: #{@variations.join ', '}"
         end
 
         @variation = variation

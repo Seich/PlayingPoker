@@ -1,26 +1,21 @@
 class Table
 	attr_reader :type
-
-    def initialize(type, variation, betting_type)
-    	@variations = [:omaha, :holdem, :royal]
+    def initialize(options = {})
 		@types = [:mtt, :ring]
 		@betting_types = [:nl, :pl, :fl]
+    	
 
-    	unless @variations.include? variation
-          fail "Deck variation doesn't exist. Valid types: #{@variations.join ', '}"
-        end
-
-        unless @types.include? type
+        unless @types.include? options[:type]
           fail "Table type doesn't exist. Valid types: #{@types.join ', '}"
         end
 
-        unless @betting_types.include? betting_type
+        unless @betting_types.include? options[:betting_type]
         	fail "Betting type doesn't exist. Valid types: #{@betting_types.join ', '}"
         end
 
-        @type = type
-        @deck = Deck.new variation
-        @betting_type = betting_type
+        @type = options[:type]
+        @deck = Deck.new options[:variation]
+        @betting_type = options[:betting_type]
     end
 
     def deal_hole_card
