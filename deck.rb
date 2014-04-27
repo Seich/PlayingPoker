@@ -1,7 +1,9 @@
 class Deck
+    attr_reader :cards
+
     def initialize(variation)
         @variations = [:omaha, :holdem, :royal]
-        unless @variations.include? variation
+        unless @variations.include?(variation)
           fail "Deck variation doesn't exist. Valid types: #{@variations.join ', '}"
         end
 
@@ -9,11 +11,21 @@ class Deck
         @cards =  generate_deck
     end
 
-    def deal_card
+    def deal_card(num: 1)
         return false if count == 0
 
+        num ||= 1
+
         @cards.shuffle!
-        @cards.pop
+        @cards.pop(num)
+    end
+
+    def deal_hole_cards
+        if @variation == :omaha
+            deal_card(num: 4)
+        else
+            deal_card(num: 2)
+        end
     end
 
     def variation
